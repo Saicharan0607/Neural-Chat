@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuralChat — AI/ML Product Intelligence Bot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="src/styles.css"/>
+</head>
+<body>
+
+  <canvas id="neuralCanvas"></canvas>
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <div class="logo-mark">
+            <div class="logo-ring"></div>
+            <div class="logo-dot"></div>
+          </div>
+          <div class="logo-text">
+            <span class="logo-name">NeuralChat</span>
+            <span class="logo-sub">AI/ML Assistant</span>
+          </div>
+        </div>
+        <button class="new-chat-btn" onclick="App.newChat()" title="New Chat">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          New Chat
+        </button>
+      </div>
+
+      <div class="sidebar-section-label">TOPICS</div>
+      <div class="topic-chips">
+        <button class="chip active" onclick="App.setTopic('ml-models')">🧠 ML Models</button>
+        <button class="chip" onclick="App.setTopic('mlops')">⚙️ MLOps</button>
+        <button class="chip" onclick="App.setTopic('nlp')">💬 NLP</button>
+        <button class="chip" onclick="App.setTopic('cv')">👁️ Computer Vision</button>
+        <button class="chip" onclick="App.setTopic('data')">📊 Data Engineering</button>
+        <button class="chip" onclick="App.setTopic('cloud')">☁️ Cloud AI</button>
+        <button class="chip" onclick="App.setTopic('interviews')">🎯 Interviews</button>
+      </div>
+
+      <div class="sidebar-section-label">RECENT CHATS</div>
+      <div class="chat-history" id="chatHistory"></div>
+
+      <div class="sidebar-bottom">
+        <div class="company-badges">
+          <span class="badge google">G</span>
+          <span class="badge meta">M</span>
+          <span class="badge amazon">A</span>
+          <span class="badge microsoft">MS</span>
+          <span class="badge openai">OAI</span>
+        </div>
+        <div class="sidebar-version">NeuralChat v1.0 · Powered by Claude</div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-main" id="chatMain">
+
+      <!-- Header -->
+      <header class="chat-header">
+        <button class="menu-btn" onclick="App.toggleSidebar()" id="menuBtn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5H17M3 10H17M3 15H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          <span id="currentTopicLabel">ML Models & Architectures</span>
+        </div>
+        <div class="header-actions">
+          <div class="status-dot"></div>
+          <span class="status-text">Claude API Active</span>
+          <button class="icon-btn" onclick="App.clearChat()" title="Clear chat">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4H14M5 4V2H11V4M6 7V12M10 7V12M3 4L4 14H12L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages -->
+      <div class="messages-container" id="messagesContainer">
+
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-hero">
+            <div class="hero-orb">
+              <div class="orb-ring r1"></div>
+              <div class="orb-ring r2"></div>
+              <div class="orb-ring r3"></div>
+              <div class="orb-core">🧠</div>
+            </div>
+            <h1 class="welcome-title">NeuralChat</h1>
+            <p class="welcome-subtitle">Your AI/ML Product Intelligence Assistant for top tech companies</p>
+          </div>
+
+          <div class="company-row">
+            <div class="company-card" onclick="App.askCompany('Google DeepMind')">
+              <span class="company-logo">🔵</span>
+              <span>Google DeepMind</span>
+            </div>
+            <div class="company-card" onclick="App.askCompany('Meta AI')">
+              <span class="company-logo">🔷</span>
+              <span>Meta AI</span>
+            </div>
+            <div class="company-card" onclick="App.askCompany('OpenAI')">
+              <span class="company-logo">⚫</span>
+              <span>OpenAI</span>
+            </div>
+            <div class="company-card" onclick="App.askCompany('Amazon AWS AI')">
+              <span class="company-logo">🟠</span>
+              <span>AWS AI/ML</span>
+            </div>
+            <div class="company-card" onclick="App.askCompany('Microsoft Azure AI')">
+              <span class="company-logo">🔷</span>
+              <span>Azure AI</span>
+            </div>
+            <div class="company-card" onclick="App.askCompany('Hugging Face')">
+              <span class="company-logo">🤗</span>
+              <span>Hugging Face</span>
+            </div>
+          </div>
+
+          <div class="suggestion-grid">
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="What are the key differences between transformer and diffusion models?">
+              <span class="sug-icon">⚡</span>
+              <span class="sug-title">Transformer vs Diffusion</span>
+              <span class="sug-desc">Architecture comparison</span>
+            </button>
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="Explain MLOps pipeline best practices used at Google and Meta">
+              <span class="sug-icon">🔁</span>
+              <span class="sug-title">MLOps Best Practices</span>
+              <span class="sug-desc">Google & Meta pipelines</span>
+            </button>
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="What ML system design questions are asked at FAANG companies?">
+              <span class="sug-icon">🎯</span>
+              <span class="sug-title">FAANG ML Interviews</span>
+              <span class="sug-desc">System design prep</span>
+            </button>
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="Compare LLM fine-tuning approaches: LoRA, QLoRA, full fine-tuning">
+              <span class="sug-icon">🧬</span>
+              <span class="sug-title">LLM Fine-tuning</span>
+              <span class="sug-desc">LoRA, QLoRA, full FT</span>
+            </button>
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="How does Amazon SageMaker differ from Google Vertex AI for production ML?">
+              <span class="sug-icon">☁️</span>
+              <span class="sug-title">Cloud ML Platforms</span>
+              <span class="sug-desc">SageMaker vs Vertex AI</span>
+            </button>
+            <button class="suggestion-card" onclick="App.sendSuggestion(this.dataset.q)" data-q="Explain RAG architecture and when to use it vs fine-tuning">
+              <span class="sug-icon">🔍</span>
+              <span class="sug-title">RAG vs Fine-tuning</span>
+              <span class="sug-desc">When to use which</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat messages go here -->
+        <div class="messages-list" id="messagesList"></div>
+
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+          <div class="input-context" id="inputContext">
+            <span class="context-label">🧠 ML Models</span>
+            <button onclick="App.clearContext()" class="context-close">×</button>
+          </div>
+          <textarea
+            id="userInput"
+            class="chat-input"
+            placeholder="Ask about ML models, MLOps, AI products, FAANG interviews..."
+            rows="1"
+            onkeydown="App.handleKeydown(event)"
+            oninput="App.autoResize(this)"
+          ></textarea>
+          <div class="input-actions">
+            <button class="attach-btn" title="Attach context" onclick="App.showContextMenu()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M14 7L7.5 13.5C5.8 15.2 3.1 15.2 1.5 13.5C-0.2 11.8 -0.2 9.1 1.5 7.5L8 1C9.1 -0.1 10.9 -0.1 12 1C13.1 2.1 13.1 3.9 12 5L5.5 11.5C5 12 4.2 12 3.7 11.5C3.2 11 3.2 10.2 3.7 9.7L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="send-btn" id="sendBtn" onclick="App.sendMessage()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M14 2L7 9M14 2L9.5 14L7 9L2 6.5L14 2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line · Powered by Claude API</div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Context Menu -->
+  <div class="context-menu" id="contextMenu" style="display:none">
+    <div class="ctx-item" onclick="App.pasteContext('python-code')">🐍 Python Code Context</div>
+    <div class="ctx-item" onclick="App.pasteContext('paper')">📄 Research Paper</div>
+    <div class="ctx-item" onclick="App.pasteContext('job-desc')">💼 Job Description</div>
+    <div class="ctx-item" onclick="App.pasteContext('error')">🔴 Error / Stack Trace</div>
+  </div>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
