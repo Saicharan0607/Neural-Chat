@@ -26,7 +26,7 @@
 ### Option 1: Run Locally (No Build Required)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/neuralchat-aiml-bot.git
+git clone https://github.com/saicharan0607/neuralchat-aiml-bot.git
 cd neuralchat-aiml-bot
 ```
 
