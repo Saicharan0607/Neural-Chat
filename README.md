@@ -238,4 +238,4 @@ Built as a portfolio project for AI/ML engineers.
 
 ## ⭐ If this helped you, please star the repository!
 
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/neuralchat-aiml-bot?style=social)](https://github.com/YOUR_USERNAME/neuralchat-aiml-bot)
+[![GitHub stars](https://img.shields.io/github/stars/saicharan0607/neuralchat-aiml-bot?style=social)](https://github.com/saicharan0607/neuralchat-aiml-bot)
